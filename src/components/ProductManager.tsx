@@ -80,7 +80,7 @@ export function ProductManager({
     if (!finalCategory) return;
 
     const productData: Product = {
-      id: editingProduct?.id || Date.now().toString(),
+      id: editingProduct?.id || crypto.randomUUID(),
       name: formData.name,
       category: finalCategory,
       basePrice: parseInt(formData.basePrice),
