@@ -141,6 +141,68 @@ export type Database = {
           },
         ]
       }
+      product_regions: {
+        Row: {
+          created_at: string
+          id: string
+          price: number
+          product_id: string
+          region_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          price?: number
+          product_id: string
+          region_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          price?: number
+          product_id?: string
+          region_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_regions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          base_price: number
+          category: string
+          created_at: string
+          id: string
+          name: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          base_price?: number
+          category?: string
+          created_at?: string
+          id?: string
+          name: string
+          unit?: string
+          updated_at?: string
+        }
+        Update: {
+          base_price?: number
+          category?: string
+          created_at?: string
+          id?: string
+          name?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

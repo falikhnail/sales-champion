@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Product, Region, Discount, ProfitMargin, PriceCalculation } from '@/types/pricing';
-import { sampleProducts, sampleRegions } from '@/data/sampleData';
+import { sampleRegions } from '@/data/sampleData';
+import { useCloudProducts } from '@/hooks/useCloudProducts';
 import { ProductSidebar } from '@/components/ProductSidebar';
 import { ProductManager } from '@/components/ProductManager';
 import { CustomerManager } from '@/components/CustomerManager';
@@ -33,7 +34,16 @@ interface CustomerWithTiers {
 }
 
 const Index = () => {
-  const [products, setProducts] = useState<Product[]>(sampleProducts);
+  const {
+    products,
+    isLoadingProducts,
+    productsError,
+    refreshProducts,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+  } = useCloudProducts();
+
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -77,21 +87,36 @@ const Index = () => {
     fetchCustomers();
   }, [currentView]);
 
-  const handleAddProduct = (product: Product) => {
-    setProducts(prev => [...prev, product]);
-  };
-
-  const handleEditProduct = (updatedProduct: Product) => {
-    setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
-    if (selectedProduct?.id === updatedProduct.id) {
-      setSelectedProduct(updatedProduct);
+  const handleAddProduct = async (product: Product) => {
+    try {
+      await addProduct(product);
+    } catch (error) {
+      console.error('Add product error:', error);
+      toast({ title: 'Error', description: 'Gagal menambahkan produk', variant: 'destructive' });
     }
   };
 
-  const handleDeleteProduct = (productId: string) => {
-    setProducts(prev => prev.filter(p => p.id !== productId));
-    if (selectedProduct?.id === productId) {
-      setSelectedProduct(null);
+  const handleEditProduct = async (updatedProduct: Product) => {
+    try {
+      await updateProduct(updatedProduct);
+      if (selectedProduct?.id === updatedProduct.id) {
+        setSelectedProduct(updatedProduct);
+      }
+    } catch (error) {
+      console.error('Update product error:', error);
+      toast({ title: 'Error', description: 'Gagal mengupdate produk', variant: 'destructive' });
+    }
+  };
+
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      await deleteProduct(productId);
+      if (selectedProduct?.id === productId) {
+        setSelectedProduct(null);
+      }
+    } catch (error) {
+      console.error('Delete product error:', error);
+      toast({ title: 'Error', description: 'Gagal menghapus produk', variant: 'destructive' });
     }
   };
 
