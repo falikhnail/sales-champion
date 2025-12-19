@@ -10,6 +10,8 @@ export interface AutoBackupData {
   customers: any[];
   priceHistory: any[];
   customerPricingTiers: any[];
+  products: any[];
+  productRegions: any[];
 }
 
 export function useAutoBackup() {
@@ -17,23 +19,27 @@ export function useAutoBackup() {
 
   const performBackup = useCallback(async () => {
     try {
-      const [customersRes, priceHistoryRes, tiersRes] = await Promise.all([
+      const [customersRes, priceHistoryRes, tiersRes, productsRes, regionsRes] = await Promise.all([
         supabase.from("customers").select("*"),
         supabase.from("price_history").select("*"),
         supabase.from("customer_pricing_tiers").select("*"),
+        (supabase as any).from("products").select("*"),
+        (supabase as any).from("product_regions").select("*"),
       ]);
 
-      if (customersRes.error || priceHistoryRes.error || tiersRes.error) {
+      if (customersRes.error || priceHistoryRes.error || tiersRes.error || productsRes.error || regionsRes.error) {
         console.error("Auto-backup fetch error");
         return;
       }
 
       const backupData: AutoBackupData = {
-        version: "1.0",
+        version: "2.0",
         exportedAt: new Date().toISOString(),
         customers: customersRes.data || [],
         priceHistory: priceHistoryRes.data || [],
         customerPricingTiers: tiersRes.data || [],
+        products: productsRes.data || [],
+        productRegions: regionsRes.data || [],
       };
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(backupData));
@@ -72,6 +78,16 @@ export function useAutoBackup() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'customer_pricing_tiers' }, scheduleBackup)
       .subscribe();
 
+    const productsChannel = supabase
+      .channel('auto-backup-products')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, scheduleBackup)
+      .subscribe();
+
+    const regionsChannel = supabase
+      .channel('auto-backup-regions')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'product_regions' }, scheduleBackup)
+      .subscribe();
+
     return () => {
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
@@ -79,6 +95,8 @@ export function useAutoBackup() {
       supabase.removeChannel(customersChannel);
       supabase.removeChannel(priceHistoryChannel);
       supabase.removeChannel(tiersChannel);
+      supabase.removeChannel(productsChannel);
+      supabase.removeChannel(regionsChannel);
     };
   }, [performBackup, scheduleBackup]);
 
