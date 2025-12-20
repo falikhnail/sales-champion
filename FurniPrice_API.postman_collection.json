@@ -1,0 +1,1228 @@
+{
+  "info": {
+    "name": "FurniPrice API",
+    "description": "Koleksi API untuk sistem FurniPrice - Aplikasi Kalkulasi Harga Furniture",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "furniprice-api-collection"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "apikey",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{SUPABASE_ANON_KEY}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "https://nwaondjaxegqlqtvsgqf.supabase.co/rest/v1",
+      "type": "string"
+    },
+    {
+      "key": "SUPABASE_ANON_KEY",
+      "value": "YOUR_ANON_KEY_HERE",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Products",
+      "description": "Endpoint untuk manajemen produk",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mengambil semua data produk"
+          }
+        },
+        {
+          "name": "Get Products with Regions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?select=*,product_regions(*)",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*,product_regions(*)"
+                }
+              ]
+            },
+            "description": "Mengambil produk beserta data harga regional"
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?id=eq.{{product_id}}&select=*,product_regions(*)",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{product_id}}"
+                },
+                {
+                  "key": "select",
+                  "value": "*,product_regions(*)"
+                }
+              ]
+            },
+            "description": "Mengambil produk berdasarkan ID"
+          }
+        },
+        {
+          "name": "Get Products by Category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?category=eq.Sofa&select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "eq.Sofa"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mengambil produk berdasarkan kategori"
+          }
+        },
+        {
+          "name": "Search Products by Name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?name=ilike.*meja*&select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "ilike.*meja*"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mencari produk berdasarkan nama (case-insensitive)"
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Meja Makan Jati\",\n  \"category\": \"Meja\",\n  \"base_price\": 2500000,\n  \"unit\": \"unit\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/products",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"]
+            },
+            "description": "Membuat produk baru"
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"base_price\": 2750000,\n  \"name\": \"Meja Makan Jati Premium\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/products?id=eq.{{product_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{product_id}}"
+                }
+              ]
+            },
+            "description": "Mengupdate data produk"
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?id=eq.{{product_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{product_id}}"
+                }
+              ]
+            },
+            "description": "Menghapus produk"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product Regions",
+      "description": "Endpoint untuk manajemen harga regional produk",
+      "item": [
+        {
+          "name": "Get All Regions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/product_regions?select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["product_regions"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mengambil semua data harga regional"
+          }
+        },
+        {
+          "name": "Get Regions by Product",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/product_regions?product_id=eq.{{product_id}}&select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["product_regions"],
+              "query": [
+                {
+                  "key": "product_id",
+                  "value": "eq.{{product_id}}"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mengambil harga regional berdasarkan produk"
+          }
+        },
+        {
+          "name": "Get Regions by Name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/product_regions?region_name=eq.Jakarta&select=*,products(*)",
+              "host": ["{{BASE_URL}}"],
+              "path": ["product_regions"],
+              "query": [
+                {
+                  "key": "region_name",
+                  "value": "eq.Jakarta"
+                },
+                {
+                  "key": "select",
+                  "value": "*,products(*)"
+                }
+              ]
+            },
+            "description": "Mengambil semua produk di region tertentu"
+          }
+        },
+        {
+          "name": "Create Product Region",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"{{product_id}}\",\n  \"region_name\": \"Surabaya\",\n  \"price\": 2600000\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/product_regions",
+              "host": ["{{BASE_URL}}"],
+              "path": ["product_regions"]
+            },
+            "description": "Menambahkan harga regional untuk produk"
+          }
+        },
+        {
+          "name": "Update Product Region",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 2700000\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/product_regions?id=eq.{{region_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["product_regions"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{region_id}}"
+                }
+              ]
+            },
+            "description": "Mengupdate harga regional"
+          }
+        },
+        {
+          "name": "Delete Product Region",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/product_regions?id=eq.{{region_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["product_regions"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{region_id}}"
+                }
+              ]
+            },
+            "description": "Menghapus harga regional"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "description": "Endpoint untuk manajemen pelanggan",
+      "item": [
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customers?select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customers"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mengambil semua data pelanggan"
+          }
+        },
+        {
+          "name": "Get Customers with Pricing Tiers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customers?select=*,customer_pricing_tiers(*)",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customers"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*,customer_pricing_tiers(*)"
+                }
+              ]
+            },
+            "description": "Mengambil pelanggan beserta tier harga"
+          }
+        },
+        {
+          "name": "Get Customer by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customers?id=eq.{{customer_id}}&select=*,customer_pricing_tiers(*)",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customers"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{customer_id}}"
+                },
+                {
+                  "key": "select",
+                  "value": "*,customer_pricing_tiers(*)"
+                }
+              ]
+            },
+            "description": "Mengambil pelanggan berdasarkan ID"
+          }
+        },
+        {
+          "name": "Search Customers by Name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customers?name=ilike.*toko*&select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customers"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "ilike.*toko*"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mencari pelanggan berdasarkan nama"
+          }
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Toko Furniture Jaya\",\n  \"email\": \"tokojaya@email.com\",\n  \"phone\": \"081234567890\",\n  \"address\": \"Jl. Merdeka No. 123, Jakarta\",\n  \"notes\": \"Pelanggan VIP\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/customers",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customers"]
+            },
+            "description": "Membuat pelanggan baru"
+          }
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"081234567899\",\n  \"notes\": \"Pelanggan VIP - Prioritas tinggi\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/customers?id=eq.{{customer_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customers"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{customer_id}}"
+                }
+              ]
+            },
+            "description": "Mengupdate data pelanggan"
+          }
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customers?id=eq.{{customer_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customers"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{customer_id}}"
+                }
+              ]
+            },
+            "description": "Menghapus pelanggan"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customer Pricing Tiers",
+      "description": "Endpoint untuk manajemen tier harga pelanggan",
+      "item": [
+        {
+          "name": "Get All Pricing Tiers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customer_pricing_tiers?select=*,customers(name)",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customer_pricing_tiers"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*,customers(name)"
+                }
+              ]
+            },
+            "description": "Mengambil semua tier harga"
+          }
+        },
+        {
+          "name": "Get Pricing Tiers by Customer",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customer_pricing_tiers?customer_id=eq.{{customer_id}}&select=*",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customer_pricing_tiers"],
+              "query": [
+                {
+                  "key": "customer_id",
+                  "value": "eq.{{customer_id}}"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                }
+              ]
+            },
+            "description": "Mengambil tier harga berdasarkan pelanggan"
+          }
+        },
+        {
+          "name": "Create Pricing Tier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": \"{{customer_id}}\",\n  \"tier_name\": \"Gold\",\n  \"discount_percentage\": 15,\n  \"description\": \"Diskon untuk pelanggan Gold\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/customer_pricing_tiers",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customer_pricing_tiers"]
+            },
+            "description": "Membuat tier harga baru"
+          }
+        },
+        {
+          "name": "Update Pricing Tier",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"discount_percentage\": 20,\n  \"description\": \"Diskon ditingkatkan untuk pelanggan loyal\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/customer_pricing_tiers?id=eq.{{tier_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customer_pricing_tiers"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{tier_id}}"
+                }
+              ]
+            },
+            "description": "Mengupdate tier harga"
+          }
+        },
+        {
+          "name": "Delete Pricing Tier",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customer_pricing_tiers?id=eq.{{tier_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customer_pricing_tiers"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{tier_id}}"
+                }
+              ]
+            },
+            "description": "Menghapus tier harga"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Price History",
+      "description": "Endpoint untuk riwayat kalkulasi harga",
+      "item": [
+        {
+          "name": "Get All Price History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?select=*,customers(name)&order=created_at.desc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*,customers(name)"
+                },
+                {
+                  "key": "order",
+                  "value": "created_at.desc"
+                }
+              ]
+            },
+            "description": "Mengambil semua riwayat harga"
+          }
+        },
+        {
+          "name": "Get Price History with Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Range",
+                "value": "0-9"
+              },
+              {
+                "key": "Prefer",
+                "value": "count=exact"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?select=*&order=created_at.desc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "select",
+                  "value": "*"
+                },
+                {
+                  "key": "order",
+                  "value": "created_at.desc"
+                }
+              ]
+            },
+            "description": "Mengambil riwayat harga dengan pagination (10 item per halaman)"
+          }
+        },
+        {
+          "name": "Get Price History by Customer",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?customer_id=eq.{{customer_id}}&select=*&order=created_at.desc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "customer_id",
+                  "value": "eq.{{customer_id}}"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                },
+                {
+                  "key": "order",
+                  "value": "created_at.desc"
+                }
+              ]
+            },
+            "description": "Mengambil riwayat harga berdasarkan pelanggan"
+          }
+        },
+        {
+          "name": "Get Price History by Product",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?product_name=ilike.*meja*&select=*&order=created_at.desc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "product_name",
+                  "value": "ilike.*meja*"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                },
+                {
+                  "key": "order",
+                  "value": "created_at.desc"
+                }
+              ]
+            },
+            "description": "Mengambil riwayat harga berdasarkan nama produk"
+          }
+        },
+        {
+          "name": "Get Price History by Date Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?created_at=gte.2024-01-01&created_at=lte.2024-12-31&select=*&order=created_at.desc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "created_at",
+                  "value": "gte.2024-01-01"
+                },
+                {
+                  "key": "created_at",
+                  "value": "lte.2024-12-31"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                },
+                {
+                  "key": "order",
+                  "value": "created_at.desc"
+                }
+              ]
+            },
+            "description": "Mengambil riwayat harga berdasarkan rentang tanggal"
+          }
+        },
+        {
+          "name": "Create Price History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_name\": \"Meja Makan Jati\",\n  \"product_unit\": \"unit\",\n  \"base_price\": 2500000,\n  \"region_name\": \"Jakarta\",\n  \"region_price\": 2600000,\n  \"margin_type\": \"percentage\",\n  \"margin_amount\": 15,\n  \"net_price\": 2990000,\n  \"discounts\": [\n    {\n      \"name\": \"Diskon Akhir Tahun\",\n      \"type\": \"percentage\",\n      \"value\": 10\n    }\n  ],\n  \"final_price\": 2691000,\n  \"customer_id\": \"{{customer_id}}\",\n  \"notes\": \"Penawaran khusus pelanggan VIP\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/price_history",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"]
+            },
+            "description": "Menyimpan riwayat kalkulasi harga"
+          }
+        },
+        {
+          "name": "Update Price History Notes",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Diupdate: Pelanggan setuju dengan harga ini\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?id=eq.{{history_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{history_id}}"
+                }
+              ]
+            },
+            "description": "Mengupdate catatan riwayat harga"
+          }
+        },
+        {
+          "name": "Delete Price History",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?id=eq.{{history_id}}",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "eq.{{history_id}}"
+                }
+              ]
+            },
+            "description": "Menghapus riwayat harga"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Advanced Queries",
+      "description": "Query lanjutan untuk analisis dan laporan",
+      "item": [
+        {
+          "name": "Get Products with Price Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?base_price=gte.1000000&base_price=lte.5000000&select=*&order=base_price.asc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "base_price",
+                  "value": "gte.1000000"
+                },
+                {
+                  "key": "base_price",
+                  "value": "lte.5000000"
+                },
+                {
+                  "key": "select",
+                  "value": "*"
+                },
+                {
+                  "key": "order",
+                  "value": "base_price.asc"
+                }
+              ]
+            },
+            "description": "Mengambil produk dalam rentang harga tertentu"
+          }
+        },
+        {
+          "name": "Get Recent Price History (Last 30 Days)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/price_history?created_at=gte.{{thirty_days_ago}}&select=*,customers(name)&order=created_at.desc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["price_history"],
+              "query": [
+                {
+                  "key": "created_at",
+                  "value": "gte.{{thirty_days_ago}}"
+                },
+                {
+                  "key": "select",
+                  "value": "*,customers(name)"
+                },
+                {
+                  "key": "order",
+                  "value": "created_at.desc"
+                }
+              ]
+            },
+            "description": "Mengambil riwayat harga 30 hari terakhir"
+          }
+        },
+        {
+          "name": "Get High Discount Tiers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/customer_pricing_tiers?discount_percentage=gte.15&select=*,customers(name)&order=discount_percentage.desc",
+              "host": ["{{BASE_URL}}"],
+              "path": ["customer_pricing_tiers"],
+              "query": [
+                {
+                  "key": "discount_percentage",
+                  "value": "gte.15"
+                },
+                {
+                  "key": "select",
+                  "value": "*,customers(name)"
+                },
+                {
+                  "key": "order",
+                  "value": "discount_percentage.desc"
+                }
+              ]
+            },
+            "description": "Mengambil tier dengan diskon tinggi (>= 15%)"
+          }
+        },
+        {
+          "name": "Get Products Count by Category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "count=exact"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/products?category=eq.Sofa&select=id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "eq.Sofa"
+                },
+                {
+                  "key": "select",
+                  "value": "id"
+                }
+              ]
+            },
+            "description": "Menghitung jumlah produk per kategori"
+          }
+        },
+        {
+          "name": "Bulk Insert Products",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"Kursi Kantor Premium\",\n    \"category\": \"Kursi\",\n    \"base_price\": 1500000,\n    \"unit\": \"unit\"\n  },\n  {\n    \"name\": \"Kursi Tamu Minimalis\",\n    \"category\": \"Kursi\",\n    \"base_price\": 800000,\n    \"unit\": \"unit\"\n  }\n]"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/products",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"]
+            },
+            "description": "Insert beberapa produk sekaligus"
+          }
+        },
+        {
+          "name": "Upsert Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Prefer",
+                "value": "return=representation,resolution=merge-duplicates"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{product_id}}\",\n  \"name\": \"Meja Makan Jati Updated\",\n  \"category\": \"Meja\",\n  \"base_price\": 2800000,\n  \"unit\": \"unit\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/products?on_conflict=id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "on_conflict",
+                  "value": "id"
+                }
+              ]
+            },
+            "description": "Insert atau update produk berdasarkan ID"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set tanggal 30 hari yang lalu untuk query",
+          "const thirtyDaysAgo = new Date();",
+          "thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);",
+          "pm.collectionVariables.set('thirty_days_ago', thirtyDaysAgo.toISOString().split('T')[0]);"
+        ]
+      }
+    }
+  ]
+}
