@@ -1,73 +1,182 @@
-# Welcome to your Lovable project
+# FurniPrice - Sistem Kalkulasi Harga Furniture
 
-## Project info
+<div align="center">
+  <img src="public/icons/icon-192x192.png" alt="FurniPrice Logo" width="120" height="120">
+  
+  **Sistem kalkulasi harga jual furniture profesional dengan manajemen produk dan pelanggan**
+  
+  [![Built with Lovable](https://img.shields.io/badge/Built%20with-Lovable-ff69b4)](https://lovable.dev)
+  [![React](https://img.shields.io/badge/React-18.3-61dafb)](https://reactjs.org/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6)](https://www.typescriptlang.org/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8)](https://tailwindcss.com/)
+</div>
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## 📋 Deskripsi
 
-There are several ways of editing your application.
+FurniPrice adalah aplikasi web progresif (PWA) yang dirancang khusus untuk bisnis furniture dan mebel. Sistem ini membantu menghitung harga jual dengan mempertimbangkan berbagai faktor seperti harga dasar, margin keuntungan, diskon, dan harga regional.
 
-**Use Lovable**
+## ✨ Fitur Utama
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 🛋️ Manajemen Produk
+- **Kategori Furniture**: Sofa, Meja, Kursi, Lemari, Tempat Tidur, Lampu, Rak Buku, TV Stand, Perlengkapan Kamar Mandi, Perlengkapan Dapur
+- **Filter Kategori**: Filter produk berdasarkan kategori dengan icon visual
+- **Harga Regional**: Atur harga berbeda untuk setiap wilayah/region
+- **Import/Export**: Backup dan restore data produk dalam format Excel
 
-Changes made via Lovable will be committed automatically to this repo.
+### 💰 Kalkulasi Harga
+- **Margin Calculator**: Hitung margin keuntungan dengan persentase atau nominal
+- **Discount Calculator**: Terapkan berbagai jenis diskon (persentase, nominal, bertingkat)
+- **Price Summary**: Ringkasan harga lengkap dengan breakdown komponen
 
-**Use your preferred IDE**
+### 👥 Manajemen Pelanggan
+- **Database Pelanggan**: Simpan data pelanggan lengkap
+- **Tier Diskon**: Atur tier diskon khusus per pelanggan
+- **Riwayat Harga**: Lacak history penawaran harga ke pelanggan
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 📊 Riwayat & Laporan
+- **Price History**: Catatan lengkap semua kalkulasi harga
+- **Export Laporan**: Export data ke Excel/PDF
+- **Data Backup**: Backup otomatis dan manual ke cloud
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 📱 Progressive Web App (PWA)
+- **Installable**: Install langsung dari browser ke home screen
+- **Offline Ready**: Akses data tanpa koneksi internet
+- **Responsive**: Optimal di desktop, tablet, dan mobile
 
-Follow these steps:
+## 🚀 Cara Menggunakan
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+### Akses Online
+Kunjungi aplikasi langsung di browser:
+```
+https://[your-lovable-project-url].lovable.app
+```
+
+### Install sebagai Aplikasi
+
+#### Android (Chrome)
+1. Buka aplikasi di Chrome
+2. Tap menu (⋮) di pojok kanan atas
+3. Pilih "Install app" atau "Add to Home screen"
+4. Konfirmasi instalasi
+
+#### iPhone/iPad (Safari)
+1. Buka aplikasi di Safari
+2. Tap tombol Share (□↑)
+3. Scroll dan pilih "Add to Home Screen"
+4. Tap "Add"
+
+#### Desktop (Chrome/Edge)
+1. Buka aplikasi di browser
+2. Klik icon install (⊕) di address bar
+3. Konfirmasi instalasi
+
+## 🛠️ Teknologi
+
+| Teknologi | Deskripsi |
+|-----------|-----------|
+| **React 18** | Library UI modern dengan hooks |
+| **TypeScript** | Type-safe JavaScript |
+| **Tailwind CSS** | Utility-first CSS framework |
+| **shadcn/ui** | Komponen UI yang accessible |
+| **Vite** | Build tool yang cepat |
+| **Supabase** | Backend-as-a-Service (database, auth) |
+| **React Query** | Server state management |
+| **PWA** | Progressive Web App support |
+
+## 📁 Struktur Proyek
+
+```
+src/
+├── components/          # Komponen React
+│   ├── ui/             # Komponen shadcn/ui
+│   ├── CustomerManager.tsx
+│   ├── DiscountCalculator.tsx
+│   ├── MarginCalculator.tsx
+│   ├── PriceHistory.tsx
+│   ├── PriceList.tsx
+│   ├── PriceSummary.tsx
+│   ├── ProductManager.tsx
+│   └── ProductSidebar.tsx
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+│   ├── furnitureCategories.ts
+│   ├── exportUtils.ts
+│   └── utils.ts
+├── pages/              # Halaman aplikasi
+│   ├── Index.tsx
+│   ├── Install.tsx
+│   └── NotFound.tsx
+├── types/              # TypeScript types
+├── integrations/       # Integrasi Supabase
+└── data/               # Sample data
+```
+
+## 🔧 Development Lokal
+
+### Prasyarat
+- Node.js 18+ 
+- npm atau bun
+
+### Instalasi
+
+```bash
+# Clone repository
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Jalankan development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Aplikasi akan berjalan di `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Build Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📊 Database Schema
 
-## What technologies are used for this project?
+### Tabel Utama
 
-This project is built with:
+| Tabel | Deskripsi |
+|-------|-----------|
+| `products` | Data produk furniture |
+| `product_regions` | Harga regional per produk |
+| `customers` | Data pelanggan |
+| `customer_pricing_tiers` | Tier diskon pelanggan |
+| `price_history` | Riwayat kalkulasi harga |
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🔐 Keamanan
 
-## How can I deploy this project?
+- Row Level Security (RLS) aktif di semua tabel
+- Data terenkripsi saat transit
+- Backup otomatis ke cloud
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 📝 Lisensi
 
-## Can I connect a custom domain to my Lovable project?
+Proyek ini dibuat dengan [Lovable](https://lovable.dev).
 
-Yes, you can!
+## 🤝 Kontribusi
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Fork repository
+2. Buat branch fitur (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 📞 Dukungan
+
+Jika ada pertanyaan atau masalah, silakan buat issue di repository ini.
+
+---
+
+<div align="center">
+  Made with ❤️ for Indonesian Furniture Business
+</div>
