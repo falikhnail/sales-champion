@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
-import { Search, Edit2, Trash2, Plus, Armchair } from 'lucide-react';
+import { Search, Edit2, Trash2, Plus, Armchair, LayoutGrid } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { FURNITURE_CATEGORIES, getCategoryIcon, getCategoryColor } from '@/lib/furnitureCategories';
@@ -33,6 +33,7 @@ export function ProductManager({
   setDialogOpen,
 }: ProductManagerProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -44,16 +45,21 @@ export function ProductManager({
 
   const categories = [...new Set(products.map(p => p.category))];
 
-  const filteredProducts = products.filter(p =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProducts = products.filter(p => {
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !selectedCategory || p.category.toLowerCase() === selectedCategory.toLowerCase();
+    return matchesSearch && matchesCategory;
+  });
 
   const groupedProducts = filteredProducts.reduce((acc, product) => {
     if (!acc[product.category]) acc[product.category] = [];
     acc[product.category].push(product);
     return acc;
   }, {} as Record<string, Product[]>);
+
+  // Get unique categories from products for filter tabs
+  const productCategories = [...new Set(products.map(p => p.category))];
 
   const openAddDialog = () => {
     setEditingProduct(null);
@@ -122,15 +128,69 @@ export function ProductManager({
           </Button>
         </div>
 
-        {/* Search */}
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-          <Input
-            placeholder="Cari produk atau kategori..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 h-11 bg-card border-border"
-          />
+        {/* Search & Category Filter */}
+        <div className="space-y-4">
+          <div className="relative max-w-md">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Input
+              placeholder="Cari produk..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 h-11 bg-card border-border"
+            />
+          </div>
+
+          {/* Category Filter Tabs */}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={selectedCategory === null ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory(null)}
+              className={cn(
+                "h-9 gap-2",
+                selectedCategory === null && "gradient-primary shadow-glow"
+              )}
+            >
+              <LayoutGrid className="w-4 h-4" />
+              Semua
+              <span className="text-xs bg-background/20 px-1.5 py-0.5 rounded-full">
+                {products.length}
+              </span>
+            </Button>
+            {productCategories.map(cat => {
+              const CategoryIcon = getCategoryIcon(cat);
+              const categoryColor = getCategoryColor(cat);
+              const count = products.filter(p => p.category.toLowerCase() === cat.toLowerCase()).length;
+              const isSelected = selectedCategory?.toLowerCase() === cat.toLowerCase();
+              
+              return (
+                <Button
+                  key={cat}
+                  variant={isSelected ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedCategory(isSelected ? null : cat)}
+                  className={cn(
+                    "h-9 gap-2 transition-all",
+                    isSelected ? "gradient-primary shadow-glow" : "hover:border-primary/50"
+                  )}
+                >
+                  <div className={cn(
+                    "w-5 h-5 rounded flex items-center justify-center",
+                    isSelected ? "bg-background/20" : categoryColor
+                  )}>
+                    <CategoryIcon className="w-3.5 h-3.5" />
+                  </div>
+                  {cat}
+                  <span className={cn(
+                    "text-xs px-1.5 py-0.5 rounded-full",
+                    isSelected ? "bg-background/20" : "bg-secondary"
+                  )}>
+                    {count}
+                  </span>
+                </Button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Product Grid */}
