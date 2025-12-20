@@ -295,16 +295,16 @@ const Index = () => {
           ) : currentView === 'backup' ? (
             <div className="max-w-2xl mx-auto">
               <div className="mb-8">
-                <h1 className="text-3xl font-bold text-foreground mb-2">Backup & Sinkronisasi</h1>
-                <p className="text-muted-foreground">Kelola backup dan sinkronisasi data</p>
+                <h1 className="text-3xl font-display font-bold text-foreground mb-2">Backup & Sinkronisasi</h1>
+                <p className="text-muted-foreground">Kelola backup dan sinkronisasi data furniture</p>
               </div>
               <DataBackupManager />
             </div>
           ) : currentView === 'summary' ? (
             <div className="max-w-2xl mx-auto">
               <div className="mb-8">
-                <h1 className="text-3xl font-bold text-foreground mb-2">Ringkasan Harga</h1>
-                <p className="text-muted-foreground">Detail kalkulasi harga jual</p>
+                <h1 className="text-3xl font-display font-bold text-foreground mb-2">Ringkasan Harga</h1>
+                <p className="text-muted-foreground">Detail kalkulasi harga jual furniture</p>
               </div>
               <Card className="shadow-card border-border overflow-hidden">
                 <CardHeader className="gradient-primary py-4">
@@ -336,8 +336,8 @@ const Index = () => {
           ) : (
             <div className="max-w-4xl mx-auto">
               <div className="mb-8">
-                <h1 className="text-3xl font-bold text-foreground mb-2">Kalkulator Harga</h1>
-                <p className="text-muted-foreground">Hitung harga jual dengan cepat dan akurat</p>
+                <h1 className="text-3xl font-display font-bold text-foreground mb-2">Kalkulator Harga Furniture</h1>
+                <p className="text-muted-foreground">Hitung harga jual furniture dengan cepat dan akurat</p>
               </div>
 
               <div className="space-y-6">

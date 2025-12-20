@@ -7,7 +7,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  LayoutGrid,
+  Armchair,
   Users,
   History,
   Receipt,
@@ -115,8 +115,8 @@ export function ProductSidebar({
           <ChevronRight className="h-5 w-5" />
         </Button>
 
-        <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-glow mb-8">
-          <LayoutGrid className="w-5 h-5 text-primary-foreground" />
+        <div className="w-10 h-10 rounded-xl gradient-wood flex items-center justify-center shadow-wood mb-8">
+          <Armchair className="w-5 h-5 text-primary-foreground" />
         </div>
 
         <nav className="flex flex-col gap-2">
@@ -170,12 +170,12 @@ export function ProductSidebar({
       <div className="p-5 border-b border-sidebar-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-glow">
-              <LayoutGrid className="w-5 h-5 text-primary-foreground" />
+            <div className="w-10 h-10 rounded-xl gradient-wood flex items-center justify-center shadow-wood">
+              <Armchair className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="font-bold text-sidebar-foreground text-sm">Price Calc</h1>
-              <p className="text-xs text-sidebar-muted">Sales Tool</p>
+              <h1 className="font-display font-semibold text-sidebar-foreground text-sm">FurniPrice</h1>
+              <p className="text-xs text-sidebar-muted">Furniture Pricing</p>
             </div>
           </div>
           <Button
