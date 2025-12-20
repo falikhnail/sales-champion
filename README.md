@@ -5,7 +5,7 @@
   
   **Sistem kalkulasi harga jual furniture profesional dengan manajemen produk dan pelanggan**
   
-  [![Built with Lovable](https://img.shields.io/badge/Built%20with-Lovable-ff69b4)](https://lovable.dev)
+  [![Built with Lovable](https://img.shields.io/badge/Built%20with-Lovable-ff69b4)
   [![React](https://img.shields.io/badge/React-18.3-61dafb)](https://reactjs.org/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6)](https://www.typescriptlang.org/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8)](https://tailwindcss.com/)
@@ -46,12 +46,6 @@ FurniPrice adalah aplikasi web progresif (PWA) yang dirancang khusus untuk bisni
 - **Responsive**: Optimal di desktop, tablet, dan mobile
 
 ## 🚀 Cara Menggunakan
-
-### Akses Online
-Kunjungi aplikasi langsung di browser:
-```
-https://[your-lovable-project-url].lovable.app
-```
 
 ### Install sebagai Aplikasi
 
@@ -161,7 +155,7 @@ npm run build
 
 ## 📝 Lisensi
 
-Proyek ini dibuat dengan [Lovable](https://lovable.dev).
+Proyek ini dibuat dengan ❤︎
 
 ## 🤝 Kontribusi
 
