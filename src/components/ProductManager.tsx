@@ -6,9 +6,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
-import { Search, Edit2, Trash2, Package, Plus } from 'lucide-react';
+import { Search, Edit2, Trash2, Plus, Armchair } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { FURNITURE_CATEGORIES, getCategoryIcon, getCategoryColor } from '@/lib/furnitureCategories';
 
 interface ProductManagerProps {
   products: Product[];
@@ -133,14 +134,20 @@ export function ProductManager({
         </div>
 
         {/* Product Grid */}
-        {Object.entries(groupedProducts).map(([category, prods]) => (
-          <div key={category} className="space-y-3 animate-fade-in">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-              <Package className="w-4 h-4" />
-              {category}
-              <span className="text-xs bg-secondary px-2 py-0.5 rounded-full">{prods.length}</span>
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Object.entries(groupedProducts).map(([category, prods]) => {
+          const CategoryIcon = getCategoryIcon(category);
+          const categoryColor = getCategoryColor(category);
+          
+          return (
+            <div key={category} className="space-y-3 animate-fade-in">
+              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                <div className={cn("w-6 h-6 rounded-md flex items-center justify-center", categoryColor)}>
+                  <CategoryIcon className="w-4 h-4" />
+                </div>
+                {category}
+                <span className="text-xs bg-secondary px-2 py-0.5 rounded-full">{prods.length}</span>
+              </h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {prods.map(product => (
                 <Card
                   key={product.id}
@@ -153,8 +160,8 @@ export function ProductManager({
                   )}
                 >
                   <div className="flex items-start justify-between mb-3">
-                    <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-                      <Package className="w-5 h-5 text-primary" />
+                    <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center", categoryColor)}>
+                      <CategoryIcon className="w-5 h-5" />
                     </div>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
@@ -184,12 +191,13 @@ export function ProductManager({
               ))}
             </div>
           </div>
-        ))}
+          );
+        })}
 
         {filteredProducts.length === 0 && (
           <div className="text-center py-16">
             <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mx-auto mb-4">
-              <Package className="w-8 h-8 text-muted-foreground" />
+              <Armchair className="w-8 h-8 text-muted-foreground" />
             </div>
             <h3 className="font-semibold text-foreground mb-1">
               {searchQuery ? 'Produk tidak ditemukan' : 'Belum ada produk'}
@@ -219,7 +227,7 @@ export function ProductManager({
             <div className="space-y-2">
               <Label>Nama Produk</Label>
               <Input
-                placeholder="Contoh: Semen Portland 50kg"
+                placeholder="Contoh: Sofa Minimalis 3 Seater"
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 className="bg-secondary/50"
@@ -227,18 +235,41 @@ export function ProductManager({
             </div>
             
             <div className="space-y-2">
-              <Label>Kategori</Label>
+              <Label>Kategori Furniture</Label>
               <Select 
                 value={formData.category} 
                 onValueChange={(v) => setFormData(prev => ({ ...prev, category: v }))}
               >
                 <SelectTrigger className="bg-secondary/50">
-                  <SelectValue placeholder="Pilih kategori..." />
+                  <SelectValue placeholder="Pilih kategori furniture..." />
                 </SelectTrigger>
-                <SelectContent className="bg-popover border-border">
-                  {categories.map(cat => (
-                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                  ))}
+                <SelectContent className="bg-popover border-border max-h-[300px]">
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide bg-muted/50">
+                    Kategori Furniture
+                  </div>
+                  {FURNITURE_CATEGORIES.map(cat => {
+                    const CatIcon = cat.icon;
+                    return (
+                      <SelectItem key={cat.name} value={cat.name} className="py-2">
+                        <div className="flex items-center gap-2">
+                          <div className={cn("w-6 h-6 rounded flex items-center justify-center", cat.color)}>
+                            <CatIcon className="w-3.5 h-3.5" />
+                          </div>
+                          <span>{cat.name}</span>
+                        </div>
+                      </SelectItem>
+                    );
+                  })}
+                  {categories.filter(c => !FURNITURE_CATEGORIES.some(fc => fc.name.toLowerCase() === c.toLowerCase())).length > 0 && (
+                    <>
+                      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide bg-muted/50 mt-1">
+                        Kategori Lainnya
+                      </div>
+                      {categories.filter(c => !FURNITURE_CATEGORIES.some(fc => fc.name.toLowerCase() === c.toLowerCase())).map(cat => (
+                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                      ))}
+                    </>
+                  )}
                   <SelectItem value="__new__">+ Kategori Baru</SelectItem>
                 </SelectContent>
               </Select>
