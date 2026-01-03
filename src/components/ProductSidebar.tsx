@@ -15,12 +15,13 @@ import {
   Database,
   Cloud,
   CloudOff,
-  Loader2
+  Loader2,
+  Bot
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 
-type MenuView = 'calculator' | 'products' | 'customers' | 'history' | 'summary' | 'pricelist' | 'backup';
+type MenuView = 'calculator' | 'products' | 'customers' | 'history' | 'summary' | 'pricelist' | 'backup' | 'ai-assistant';
 
 interface ProductSidebarProps {
   currentView: MenuView;
@@ -100,6 +101,12 @@ export function ProductSidebar({
       label: 'Backup & Sync',
       icon: Database,
       description: 'Kelola data',
+    },
+    {
+      id: 'ai-assistant' as MenuView,
+      label: 'AI Assistant',
+      icon: Bot,
+      description: 'Rekomendasi harga',
     },
   ];
 

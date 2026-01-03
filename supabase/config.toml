@@ -1,1 +1,4 @@
 project_id = "nwaondjaxegqlqtvsgqf"
+
+[functions.ai-pricing-assistant]
+verify_jwt = false

@@ -8,6 +8,7 @@ import { CustomerManager } from '@/components/CustomerManager';
 import { PriceHistory, PriceHistoryRecord } from '@/components/PriceHistory';
 import { PriceList } from '@/components/PriceList';
 import { DataBackupManager } from '@/components/DataBackupManager';
+import AIPricingAssistant from '@/components/AIPricingAssistant';
 import { DiscountCalculator } from '@/components/DiscountCalculator';
 import { MarginCalculator } from '@/components/MarginCalculator';
 import { PriceSummary } from '@/components/PriceSummary';
@@ -20,7 +21,7 @@ import { Calculator, Percent, TrendingUp, MapPin, Package, Users, Save, ArrowRig
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
-type MenuView = 'calculator' | 'products' | 'customers' | 'history' | 'summary' | 'pricelist' | 'backup';
+type MenuView = 'calculator' | 'products' | 'customers' | 'history' | 'summary' | 'pricelist' | 'backup' | 'ai-assistant';
 
 interface CustomerWithTiers {
   id: string;
@@ -299,6 +300,19 @@ const Index = () => {
                 <p className="text-muted-foreground">Kelola backup dan sinkronisasi data furniture</p>
               </div>
               <DataBackupManager />
+            </div>
+          ) : currentView === 'ai-assistant' ? (
+            <div className="max-w-3xl mx-auto">
+              <AIPricingAssistant 
+                products={products.map(p => ({ 
+                  id: p.id, 
+                  name: p.name, 
+                  basePrice: p.basePrice, 
+                  category: p.category, 
+                  unit: p.unit 
+                }))}
+                customers={customers.map(c => ({ id: c.id, name: c.name }))}
+              />
             </div>
           ) : currentView === 'summary' ? (
             <div className="max-w-2xl mx-auto">
